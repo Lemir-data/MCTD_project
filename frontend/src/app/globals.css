@@ -1,0 +1,261 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1A3C6E;
+  --color-primary-light: #2a5ca8;
+  --color-primary-dark: #122a4e;
+  --color-secondary: #C8941A;
+  --color-secondary-light: #e0a830;
+  --color-secondary-dark: #a07010;
+  --color-background: #ffffff;
+  --color-card: #F8FAFC;
+  --color-muted: #F1F5F9;
+  --color-muted-foreground: #64748B;
+  --color-border: #E2E8F0;
+  --color-destructive: #EF4444;
+  --color-foreground: #0F172A;
+  --color-foreground-muted: #475569;
+
+  --font-heading: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.border-primary { border-color: var(--color-primary); }
+.border-secondary { border-color: var(--color-secondary); }
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.625rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.btn-primary:hover { background-color: var(--color-primary-dark); }
+
+@layer components {
+  /* ── Bouton connexion : remplissage bleu au survol ── */
+  .btn-nav-connexion {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    color: #1A3C6E;
+    transition: color 0.3s ease;
+  }
+  .btn-nav-connexion::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #1A3C6E;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+  .btn-nav-connexion:hover { color: white; }
+  .btn-nav-connexion:hover::before { transform: translateX(0); }
+
+  /* ── Bouton inscription : remplissage doré au survol ── */
+  .btn-nav-inscription {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    color: #C8941A;
+    transition: color 0.3s ease;
+  }
+  .btn-nav-inscription::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #C8941A;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+  .btn-nav-inscription:hover { color: white; }
+  .btn-nav-inscription:hover::before { transform: translateX(0); }
+
+  /* ── Bouton faire un don : remplissage doré foncé au survol ── */
+  .btn-nav-don {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.3s ease;
+  }
+  .btn-nav-don::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #a07010;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: -1;
+  }
+  .btn-nav-don:hover::before { transform: translateX(0); }
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 0.625rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.btn-secondary:hover { background-color: var(--color-secondary-dark); }
+
+.btn-outline {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: transparent;
+}
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-outline-gold {
+  border: 2px solid var(--color-secondary);
+  color: var(--color-secondary);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: transparent;
+}
+.btn-outline-gold:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.card {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.card:hover {
+  box-shadow: 0 8px 30px rgba(26, 60, 110, 0.1);
+}
+
+/* Boutons — retour haptique */
+.btn-primary, .btn-secondary, .btn-outline {
+  transition: background-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.15s;
+}
+.btn-primary:active, .btn-secondary:active, .btn-outline:active {
+  transform: scale(0.97);
+}
+
+/* Inputs — focus smooth */
+input, textarea, select {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  box-shadow: 0 0 0 3px rgba(26, 60, 110, 0.1);
+}
+
+.input-white::placeholder { color: rgba(255,255,255,0.55); }
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: var(--color-foreground-muted);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-primary { background-color: #dbeafe; color: var(--color-primary); }
+.badge-secondary { background-color: #fef3c7; color: #92400e; }
+.badge-success { background-color: #dcfce7; color: #166534; }
+.badge-danger { background-color: #fee2e2; color: #991b1b; }
+
+/* Mobile bottom padding — compense la nav fixe + safe area iOS */
+.main-content {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+@media (min-width: 768px) {
+  .main-content {
+    padding-bottom: 0;
+  }
+}
+
+/* Équilibre typographique */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+
+/* Admin sidebar */
+.admin-sidebar {
+  width: 260px;
+  height: 100vh;
+  background-color: var(--color-primary);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  overflow-y: auto;
+  flex-direction: column;
+}
