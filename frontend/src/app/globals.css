@@ -16,8 +16,8 @@
   --color-foreground: #0F172A;
   --color-foreground-muted: #475569;
 
-  --font-heading: var(--font-playfair), Georgia, serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-heading: "EB Garamond", Georgia, serif;
+  --font-body: var(--font-nunito), "Nunito", system-ui, sans-serif;
 
   --radius: 0.75rem;
   --radius-sm: 0.5rem;
@@ -33,14 +33,25 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
 }
 
 h1, h2, h3 {
   font-family: var(--font-heading);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  text-wrap: balance;
 }
 
 .font-heading {
   font-family: var(--font-heading);
+}
+
+/* Fluid display — titres héros (PageHeader) */
+.text-display {
+  font-size: clamp(2.25rem, 3.5vw + 1rem, 3.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .text-primary { color: var(--color-primary); }
@@ -205,7 +216,8 @@ input:focus, textarea:focus, select:focus {
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2vw + 0.75rem, 2.25rem);
+  line-height: 1.2;
   font-weight: 700;
   color: var(--color-primary);
   margin-bottom: 0.5rem;
@@ -240,9 +252,49 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Équilibre typographique */
-h1, h2, h3 {
-  text-wrap: balance;
+/* Focus visible — anneau cohérent sur tous les éléments interactifs */
+:focus-visible {
+  outline: 2px solid #C8941A;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip-to-content pour accessibilité clavier */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 200;
+  background: #1A3C6E;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Masque les scrollbars des filter pill bars (flash pendant l'animation layoutId) */
+[role="tablist"] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+[role="tablist"]::-webkit-scrollbar {
+  display: none;
+}
+
+/* Réduction du mouvement — fallback CSS */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Image as ImageIcon, Video } from "lucide-react";
+import { PageHeader, FilterPillBar, EmptyState } from "@/components/ui/ui";
 
 const tabs = ["Tous", "Photos", "Vidéos", "Albums"];
 
@@ -43,40 +44,35 @@ export default function GaleriePage() {
   return (
     <div>
       {/* Header */}
-      <section className="py-20 px-4 text-white" style={{ background: "linear-gradient(135deg, #1A3C6E, #122a4e)" }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: "#C8941A" }}>Médiathèque</span>
-          <h1 className="font-heading text-4xl md:text-5xl font-bold mt-3 mb-4">Galerie MCTD</h1>
-          <p className="text-blue-200 text-lg">Revivez les moments forts de notre communauté en photos et vidéos</p>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Médiathèque"
+        title="Galerie MCTD"
+        subtitle="Revivez les moments forts de notre communauté en photos et vidéos"
+      />
 
       {/* Filtres */}
-      <section className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4" role="tablist" aria-label="Filtrer la galerie">
-        <div className="max-w-7xl mx-auto flex gap-1 py-3 overflow-x-auto">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab}
-              onClick={() => handleTabChange(tab)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors min-h-[44px] flex items-center ${
-                activeTab === tab
-                  ? "text-white"
-                  : "text-gray-600 hover:bg-gray-100"
-              }`}
-              style={activeTab === tab ? { backgroundColor: "#1A3C6E" } : {}}
-            >
-              {tab}
-            </button>
-          ))}
+      <section className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4">
+        <div className="max-w-7xl mx-auto flex py-3">
+          <FilterPillBar
+            tabs={tabs.map((t) => ({ id: t, label: t }))}
+            active={activeTab}
+            onChange={handleTabChange}
+            layoutId="galerie"
+            ariaLabel="Filtrer la galerie"
+          />
         </div>
       </section>
 
       {/* Grille */}
       <section className="py-12 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="max-w-7xl mx-auto">
+        {displayed.length === 0 && (
+          <EmptyState
+            icon={<ImageIcon size={40} />}
+            title="Aucun contenu dans cette catégorie pour le moment."
+          />
+        )}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {displayed.map((item) => (
             <div
               key={item.id}
@@ -119,6 +115,7 @@ export default function GaleriePage() {
             </button>
           </div>
         )}
+        </div>
       </section>
     </div>
   );

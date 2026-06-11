@@ -1,0 +1,21 @@
+# Dépendances — réinstallées dans le conteneur
+node_modules
+
+# Output de build — reconstruit dans le conteneur
+.next
+
+# Fichiers de dev
+.env*.local
+*.log
+dev_server.log
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Docs & config CI
+README.md

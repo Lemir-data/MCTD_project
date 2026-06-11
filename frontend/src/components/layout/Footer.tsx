@@ -34,7 +34,7 @@ export default function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-11 w-auto object-contain" />
               <div>
-                <p className="font-bold text-lg" style={{ fontFamily: "Playfair Display, serif" }}>MCTD</p>
+                <p className="font-bold text-lg font-heading">MCTD</p>
                 <p className="text-xs text-blue-200">Ministère Catholique de Transformation et de Développement</p>
               </div>
             </div>
@@ -67,6 +67,7 @@ export default function Footer() {
                 { href: "/formations", label: "Formations" },
                 { href: "/evenements", label: "Événements" },
                 { href: "/galerie", label: "Galerie" },
+                { href: "/boutique", label: "Boutique" },
                 { href: "/don", label: "Faire un Don" },
                 { href: "/contact", label: "Contact" },
               ].map((link) => (

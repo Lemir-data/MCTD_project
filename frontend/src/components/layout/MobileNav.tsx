@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { Home, GraduationCap, Heart, CalendarDays, User } from "lucide-react";
 
 const tabs = [
@@ -75,12 +76,19 @@ export default function MobileNav() {
               >
                 {tab.label}
               </span>
-              {active && (
-                <div
-                  className="absolute bottom-0 w-8 h-0.5 rounded-full"
-                  style={{ backgroundColor: "#1A3C6E" }}
-                />
-              )}
+              <AnimatePresence>
+                {active && (
+                  <motion.div
+                    layoutId="mobile-nav-indicator"
+                    className="absolute bottom-0 w-8 h-0.5 rounded-full"
+                    style={{ backgroundColor: "#1A3C6E" }}
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    exit={{ opacity: 0, scaleX: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                  />
+                )}
+              </AnimatePresence>
             </Link>
           );
         })}

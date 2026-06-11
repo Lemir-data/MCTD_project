@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { Heart, Shield, Smartphone, CreditCard, EyeOff, Eye } from "lucide-react";
 import { AnimatedCounter, FadeIn } from "@/components/ui/animations";
 import { useAuth } from "@/contexts/AuthContext";
@@ -104,7 +105,7 @@ export default function DonPage() {
                     }`}
                     style={donorType === t ? { backgroundColor: "#1A3C6E", borderColor: "#1A3C6E" } : {}}
                   >
-                    {t === "ponctuel" ? "Don Ponctuel" : "Don Récurrent"}
+                    {t === "ponctuel" ? "Don Ponctuel" : "Don Mensuel"}
                   </button>
                 ))}
               </div>
@@ -115,16 +116,19 @@ export default function DonPage() {
               <h2 className="font-semibold text-gray-900 mb-4">Choisir le montant (FCFA)</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                 {presetAmounts.map((a) => (
-                  <button
+                  <motion.button
                     key={a}
                     onClick={() => setAmount(a)}
-                    className={`py-2.5 rounded-lg text-sm font-semibold border-2 transition-all ${
-                      amount === a ? "text-white border-transparent" : "text-gray-700 border-gray-200 hover:border-[#C8941A]"
+                    whileTap={{ scale: 0.92 }}
+                    whileHover={{ scale: 1.04 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    className={`py-2.5 rounded-lg text-sm font-semibold border-2 ${
+                      amount === a ? "text-white border-transparent" : "text-gray-700 border-gray-200"
                     }`}
                     style={amount === a ? { backgroundColor: "#C8941A", borderColor: "#C8941A" } : {}}
                   >
                     {a.toLocaleString()} FCFA
-                  </button>
+                  </motion.button>
                 ))}
               </div>
               <label htmlFor="don-montant-libre" className="sr-only">Autre montant en FCFA</label>
@@ -193,7 +197,7 @@ export default function DonPage() {
               )}
               {!isLoggedIn && (
                 <p className="text-sm text-gray-500 mt-4 text-center">
-                  Déjà fidèle MCTD ?{" "}
+                  Déjà inscrit ?{" "}
                   <Link href="/auth/connexion" className="font-medium hover:underline" style={{ color: "#1A3C6E" }}>
                     Se connecter
                   </Link>{" "}

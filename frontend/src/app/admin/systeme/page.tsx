@@ -179,7 +179,7 @@ const initialEngagements: EngagementItem[] = [
 
 type TeamMember = { id: string; name: string; role: string; description: string; photoUrl: string; visible: boolean };
 const initialTeamMembers: TeamMember[] = [
-  { id: "1", name: "Fr. Jean-Baptiste Gervais EHUY", role: "Fondateur & Berger du MCTD", description: "Porteur du mandat « Faire sortir le peuple de la pauvreté », Fr. Jean-Baptiste Gervais EHUY conduit le Ministère vers le développement intégral à la lumière de l'Évangile.", photoUrl: "", visible: true },
+  { id: "1", name: "Fr. Jean-Baptiste Gervais EHUY", role: "Fondateur et Berger du MCTD", description: "Porteur du mandat « Faire sortir le peuple de la pauvreté », Fr. Jean-Baptiste Gervais EHUY conduit le Ministère vers le développement intégral à la lumière de l'Évangile.", photoUrl: "", visible: true },
   { id: "2", name: "Clarisse EHUY",         role: "Co-fondatrice",          description: "Aux côtés de son époux depuis 1987 et mariée en 1994, Clarisse EHUY accompagne les familles et les femmes dans leur cheminement spirituel et personnel.", photoUrl: "", visible: true },
   { id: "3", name: "Sœur Marie-Claire Bamba", role: "Responsable E-Learning", description: "Docteure en sciences de l'éducation, Sœur Marie-Claire développe les programmes de formation théologique et spirituelle du MCTD.", photoUrl: "", visible: true },
 ];
@@ -512,8 +512,8 @@ export default function AdminSystemePage() {
             </div>
           </Collapsible>
 
-          {/* Localisation & contacts */}
-          <Collapsible icon={MapPin} title="Localisation & contacts" subtitle="Adresse, téléphone et email affichés aux fidèles">
+          {/* Localisation et contacts */}
+          <Collapsible icon={MapPin} title="Localisation et contacts" subtitle="Adresse, téléphone et email affichés aux fidèles">
             <div className="space-y-4 pt-2">
               <div>
                 <div className="flex items-center justify-between mb-1">

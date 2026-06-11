@@ -7,7 +7,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
   return (
     <AuthProvider>
       <Navbar />
-      <main className="flex-1 main-content">
+      <main id="main-content" className="flex-1 main-content">
         {children}
       </main>
       <Footer />

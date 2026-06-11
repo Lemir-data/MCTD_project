@@ -1,112 +1,127 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Menu, X, Heart, ChevronDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { ScrollProgress } from "@/components/ui/animations";
 
 const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/a-propos", label: "À Propos" },
   {
-    label: "Formations",
+    label: "E-learning",
     href: "/formations",
     children: [
-      { href: "/formations", label: "Tous les modules" },
       { href: "/formations?cat=theologie", label: "Théologie" },
-      { href: "/formations?cat=bible", label: "Étude Biblique" },
+      { href: "/formations?cat=bible", label: "Bible" },
       { href: "/formations?cat=leadership", label: "Leadership" },
       { href: "/formations?cat=spiritualite", label: "Spiritualité" },
     ],
   },
   { href: "/evenements", label: "Événements" },
   { href: "/galerie", label: "Galerie" },
+  { href: "/boutique", label: "Boutique" },
   { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { isLoggedIn } = useAuth();
+  const [scrolled, setScrolled] = useState(false);
+  const shouldReduce = useReducedMotion();
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#E2E8F0] shadow-sm notranslate" translate="no">
+    <>
+    <ScrollProgress />
+    <header
+      className={`sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#E2E8F0] notranslate transition-shadow duration-300 ${scrolled ? "shadow-md" : "shadow-sm"}`}
+      translate="no"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-6 xl:gap-10 min-w-0">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-10 w-auto object-contain" />
-              <div>
-                <span className="font-bold text-lg" style={{ color: "#1A3C6E", fontFamily: "Playfair Display, serif" }}>
-                  MCTD
-                </span>
-                <p className="text-[10px] text-gray-500 leading-tight hidden xl:block">
-                  Ministère Catholique de<br />Transformation et de Développement
-                </p>
-              </div>
-            </Link>
+        <div className="flex items-center h-16 gap-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-10 w-auto object-contain" />
+            <div>
+              <span className="font-bold text-lg font-heading" style={{ color: "#1A3C6E" }}>
+                MCTD
+              </span>
+              <p className="text-[10px] text-gray-400 leading-tight hidden lg:block">
+                Ministère Catholique de<br />Transformation et de Développement
+              </p>
+            </div>
+          </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link) =>
-                link.children ? (
-                  <div key={link.label} className="relative group">
-                    <button
-                      type="button"
-                      aria-haspopup="true"
-                      aria-expanded={dropdownOpen}
-                      className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
-                        isActive(link.href)
-                          ? "text-[#1A3C6E] bg-blue-50"
-                          : "text-gray-600 hover:text-[#1A3C6E] hover:bg-blue-50"
-                      }`}
-                      onClick={() => setDropdownOpen(!dropdownOpen)}
-                    >
-                      {link.label}
-                      <ChevronDown size={14} />
-                    </button>
-                    <div className="absolute top-full left-0 mt-1 w-52 bg-white rounded-lg shadow-lg border border-gray-100 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-[#1A3C6E]"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
+          {/* Desktop Nav — flex-1 + justify-end pour coller vers la droite */}
+          <nav className="hidden lg:flex flex-1 items-center justify-end gap-1">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.label} className="relative group">
                   <Link
-                    key={link.href}
                     href={link.href}
-                    className={`px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                       isActive(link.href)
-                        ? "text-[#1A3C6E] bg-blue-50"
-                        : "text-gray-600 hover:text-[#1A3C6E] hover:bg-blue-50"
+                        ? "text-[#1A3C6E] bg-blue-100"
+                        : "text-gray-600 hover:text-[#1A3C6E] hover:bg-blue-100"
                     }`}
                   >
                     {link.label}
+                    <ChevronDown size={14} />
                   </Link>
-                )
-              )}
-            </nav>
-          </div>
+                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    {link.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 hover:text-[#1A3C6E]"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                    isActive(link.href)
+                      ? "text-[#1A3C6E] bg-blue-100"
+                      : "text-gray-600 hover:text-[#1A3C6E] hover:bg-blue-100"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
+          </nav>
 
           {/* Right side */}
-          <div className="flex items-center gap-3 ml-6 lg:ml-16">
+          <div className="flex items-center gap-3 ml-auto lg:ml-0 shrink-0">
             <Link
               href="/don"
               className="btn-nav-don hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white whitespace-nowrap shrink-0"
               style={{ backgroundColor: "#C8941A" }}
             >
-              <Heart size={15} />
+              <motion.span
+                className="inline-flex"
+                animate={shouldReduce ? {} : { scale: [1, 1.22, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Heart size={15} />
+              </motion.span>
               Faire un don
             </Link>
             {!isLoggedIn && (
@@ -152,7 +167,7 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               className={`block px-3 py-2 rounded-md text-sm font-medium ${
                 isActive(link.href)
-                  ? "text-[#1A3C6E] bg-blue-50"
+                  ? "text-[#1A3C6E] bg-blue-100"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -177,5 +192,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </>
   );
 }

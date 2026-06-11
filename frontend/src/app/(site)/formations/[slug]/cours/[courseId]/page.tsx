@@ -79,7 +79,7 @@ export default async function CoursPage({ params }: { params: Promise<{ slug: st
           <div className="card mt-6 p-6">
             <div className="flex items-center gap-2 mb-4">
               <MessageSquare size={18} style={{ color: "#1A3C6E" }} />
-              <h3 className="font-semibold text-gray-900">Questions & Commentaires</h3>
+              <h3 className="font-semibold text-gray-900">Questions et Commentaires</h3>
             </div>
             <textarea
               placeholder="Posez votre question ou partagez vos réflexions..."

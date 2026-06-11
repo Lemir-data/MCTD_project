@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { BookOpen, Search, Clock, Users } from "lucide-react";
 import { mockModules } from "@/lib/mockData";
+import { PageHeader, FilterPillBar, EmptyState } from "@/components/ui/ui";
 
 const categories = ["Tous", "Théologie", "Bible", "Leadership", "Spiritualité"];
 
@@ -19,47 +20,35 @@ export default function FormationsPage() {
   return (
     <div>
       {/* Header */}
-      <section className="py-20 px-4 text-white" style={{ background: "linear-gradient(135deg, #1A3C6E, #122a4e)" }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <BookOpen size={40} className="mx-auto mb-4 opacity-80" />
-          <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Nos Formations</h1>
-          <p className="text-blue-200 text-lg mb-6">
-            {mockModules.length} modules de formation théologique et spirituelle — accessibles gratuitement
-          </p>
-          <div className="relative max-w-lg mx-auto">
-            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60" />
-            <input
-              type="text"
-              aria-label="Rechercher un module de formation"
-              placeholder="Rechercher un module..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="input-white w-full pl-12 pr-4 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
-              style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
-            />
-          </div>
+      <PageHeader
+        icon={<BookOpen size={40} className="mx-auto mb-4 opacity-80" />}
+        title="Nos Formations"
+        subtitle={`${mockModules.length} modules de formation théologique et spirituelle — accessibles gratuitement`}
+      >
+        <div className="relative max-w-lg mx-auto mt-6">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60" />
+          <input
+            type="text"
+            aria-label="Rechercher un module de formation"
+            placeholder="Rechercher un module..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="input-white w-full pl-12 pr-4 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
+            style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
+          />
         </div>
-      </section>
+      </PageHeader>
 
       {/* Filtres */}
       <section className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4">
         <div className="max-w-7xl mx-auto flex flex-wrap gap-6 py-3">
-          <div className="flex gap-1 overflow-x-auto">
-            {categories.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setCat(c)}
-                aria-pressed={cat === c}
-                className={`px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors min-h-[44px] flex items-center ${
-                  cat === c ? "text-white" : "text-gray-600 hover:bg-gray-100"
-                }`}
-                style={cat === c ? { backgroundColor: "#1A3C6E" } : {}}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
+          <FilterPillBar
+            tabs={categories.map((c) => ({ id: c, label: c }))}
+            active={cat}
+            onChange={setCat}
+            layoutId="formations"
+            ariaLabel="Filtrer les formations"
+          />
         </div>
       </section>
 
@@ -93,10 +82,10 @@ export default function FormationsPage() {
             ))}
           </div>
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-gray-400">
-              <BookOpen size={40} className="mx-auto mb-3" />
-              <p>Aucun module ne correspond à votre recherche.</p>
-            </div>
+            <EmptyState
+              icon={<BookOpen size={40} />}
+              title="Aucun module ne correspond à votre recherche."
+            />
           )}
         </div>
       </section>

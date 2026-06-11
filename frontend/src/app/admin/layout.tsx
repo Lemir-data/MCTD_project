@@ -14,7 +14,7 @@ const navItems = [
   { href: "/admin/utilisateurs", label: "Fidèles", icon: Users },
   { href: "/admin/elearning", label: "E-Learning", icon: BookOpen },
   { href: "/admin/evenements", label: "Événements", icon: CalendarDays },
-  { href: "/admin/dons", label: "Dons & Finance", icon: Heart },
+  { href: "/admin/dons", label: "Dons et Finance", icon: Heart },
   { href: "/admin/galerie", label: "Galerie", icon: Image },
   { href: "/admin/logs", label: "Logs activité", icon: FileText },
   { href: "/admin/roles", label: "Rôles", icon: Shield },

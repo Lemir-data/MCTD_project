@@ -130,7 +130,7 @@ export default function AdminDonsPage() {
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-heading text-2xl font-bold" style={{ color: "#1A3C6E" }}>Dons & Finance</h1>
+          <h1 className="font-heading text-2xl font-bold" style={{ color: "#1A3C6E" }}>Dons et Finance</h1>
           <p className="text-gray-500 text-sm mt-0.5">Suivi des dons et transactions</p>
         </div>
         <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50">

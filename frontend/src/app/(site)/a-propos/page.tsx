@@ -139,7 +139,7 @@ export default function AProposPage() {
       <section className="py-12 md:py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <FadeIn className="text-center mb-12">
-            <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: "#C8941A" }}>L'Équipe</span>
+            <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: "#C8941A" }}>Notre Ministère</span>
             <h2 className="section-title mt-2">Notre Corps Pastoral</h2>
             <p className="section-subtitle">Des hommes et femmes dévoués au service de la communauté</p>
           </FadeIn>

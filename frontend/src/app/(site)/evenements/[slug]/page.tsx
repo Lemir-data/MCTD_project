@@ -34,7 +34,7 @@ export default async function EvenementDetailPage({ params }: { params: Promise<
 
             <div className="grid sm:grid-cols-3 gap-4 mb-8">
               {[
-                { icon: CalendarDays, label: "Date & Heure", value: `${event.date}\n${event.time}` },
+                { icon: CalendarDays, label: "Date et Heure", value: `${event.date}\n${event.time}` },
                 { icon: MapPin, label: "Lieu", value: event.location },
                 { icon: Users, label: "Places", value: event.status === "complet" ? "Complet" : `${event.placesLeft} restantes` },
               ].map((item) => (

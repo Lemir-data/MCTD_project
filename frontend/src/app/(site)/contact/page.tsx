@@ -1,6 +1,7 @@
 "use client";
 import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram, Linkedin, MessageSquare, Upload, Paperclip } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { PageHeader } from "@/components/ui/ui";
 
 const focusClass = "focus:outline-none focus:border-[#1A3C6E] focus:ring-2 focus:ring-[#1A3C6E]/20";
 
@@ -12,30 +13,15 @@ export default function ContactPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFileName(e.target.files?.[0]?.name ?? null);
   };
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [geoError, setGeoError] = useState(false);
-
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setGeoError(true);
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => setGeoError(true)
-    );
-  }, []);
 
   return (
     <div>
       {/* Header */}
-      <section className="py-20 px-4 text-white" style={{ background: "linear-gradient(135deg, #1A3C6E, #122a4e)" }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: "#C8941A" }}>Nous Contacter</span>
-          <h1 className="font-heading text-4xl md:text-5xl font-bold mt-3 mb-4">Contactez-nous</h1>
-          <p className="text-blue-200 text-lg">Notre église est disponible pour répondre à toutes vos questions</p>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="Nous Contacter"
+        title="Contactez-nous"
+        subtitle="Notre église est disponible pour répondre à toutes vos questions"
+      />
 
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
@@ -194,35 +180,27 @@ export default function ContactPage() {
       {/* Carte */}
       <section className="px-4 pb-16">
         <div className="max-w-7xl mx-auto">
-          {coords ? (
-            <div className="card relative h-72 overflow-hidden group cursor-pointer">
-              <iframe
-                title="Localisation MCTD"
-                src={`https://www.google.com/maps?q=${coords.lat},${coords.lng}&output=embed`}
-                className="w-full h-full border-0 pointer-events-none"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${coords.lat},${coords.lng}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Ouvrir l'itinéraire dans votre application GPS"
-                className="absolute inset-0 flex items-end justify-center pb-4 bg-black/0 group-hover:bg-black/10 transition-colors"
-              >
-                <span className="px-4 py-2 rounded-full text-xs font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ backgroundColor: "#1A3C6E" }}>
-                  Ouvrir l'itinéraire dans votre GPS
-                </span>
-              </a>
-            </div>
-          ) : (
-            <div className="card h-72 flex items-center justify-center" style={{ backgroundColor: "#E2E8F0" }}>
-              <p className="text-gray-400 text-sm">
-                {geoError ? "Localisation indisponible — autorisez l'accès à votre position" : "Chargement de la carte…"}
-              </p>
-            </div>
-          )}
+          <div className="card relative h-72 overflow-hidden group cursor-pointer">
+            <iframe
+              title="Localisation MCTD — Cocody Riviera 3, cité EECI, Abidjan"
+              src="https://www.google.com/maps?q=Cocody+Riviera+3+cit%C3%A9+EECI+Abidjan+C%C3%B4te+d%27Ivoire&output=embed"
+              className="w-full h-full border-0 pointer-events-none"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=Cocody+Riviera+3+EECI+Abidjan"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Obtenir l'itinéraire vers MCTD"
+              className="absolute inset-0 flex items-end justify-center pb-4 bg-black/0 group-hover:bg-black/10 transition-colors"
+            >
+              <span className="px-4 py-2 rounded-full text-xs font-semibold text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ backgroundColor: "#1A3C6E" }}>
+                Obtenir l'itinéraire vers MCTD
+              </span>
+            </a>
+          </div>
         </div>
       </section>
     </div>

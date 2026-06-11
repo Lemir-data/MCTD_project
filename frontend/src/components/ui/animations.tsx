@@ -1,6 +1,20 @@
 "use client";
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion, useScroll } from "framer-motion";
+
+/* ── Barre de progression scroll ── */
+export function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
+  const shouldReduce = useReducedMotion();
+  if (shouldReduce) return null;
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 z-[110] origin-left"
+      style={{ height: "3px", scaleX, backgroundColor: "#C8941A" }}
+    />
+  );
+}
 
 /* ── Compteur animé ── */
 export function AnimatedCounter({
@@ -93,8 +107,8 @@ export function NewsTicker({
           ) : b.mode === "clignotant" && !shouldReduce ? (
             <motion.p
               className="text-center text-sm font-semibold text-white px-4"
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.3, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ opacity: [1, 0.6, 1] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             >
               {b.text}
             </motion.p>
@@ -126,10 +140,10 @@ export function FadeIn({
   }
 
   const initial: Record<string, number> = { opacity: 0 };
-  if (direction === "up") initial.y = 40;
-  if (direction === "down") initial.y = -40;
-  if (direction === "left") initial.x = 40;
-  if (direction === "right") initial.x = -40;
+  if (direction === "up") initial.y = 24;
+  if (direction === "down") initial.y = -24;
+  if (direction === "left") initial.x = 24;
+  if (direction === "right") initial.x = -24;
 
   return (
     <motion.div
@@ -190,8 +204,8 @@ export function StaggerItem({
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+        hidden: { opacity: 0, y: 18 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
       }}
     >
       {children}
@@ -249,8 +263,8 @@ export function TiltCard({
     const rect = ref.current.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    x.set(((e.clientX - cx) / rect.width) * 12);
-    y.set(-((e.clientY - cy) / rect.height) * 12);
+    x.set(((e.clientX - cx) / rect.width) * 7);
+    y.set(-((e.clientY - cy) / rect.height) * 7);
   };
 
   const handleMouseLeave = () => {
@@ -277,7 +291,7 @@ export function TiltCard({
   );
 }
 
-/* ── Pulse animé (cœur, icône) ── */
+/* ── Pulse animé (cœur, icône) — une seule pulsation au montage ── */
 export function PulseIcon({ children, className }: { children: ReactNode; className?: string }) {
   const shouldReduce = useReducedMotion();
 
@@ -288,7 +302,7 @@ export function PulseIcon({ children, className }: { children: ReactNode; classN
   return (
     <motion.div
       className={className}
-      animate={{ scale: [1, 1.12, 1] }}
+      animate={{ scale: [1, 1.10, 1] }}
       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
     >
       {children}

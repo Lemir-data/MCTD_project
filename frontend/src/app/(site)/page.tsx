@@ -111,7 +111,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}>
-                <p className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight" style={{ color: "#C8941A" }}>
+                <p className="text-xl sm:text-2xl md:text-3xl font-bold leading-tight text-white">
                   <AnimatedCounter value={stat.value + stat.suffix} duration={2.5} />
                 </p>
                 <p className="text-blue-200 text-[10px] sm:text-xs md:text-sm mt-0.5 leading-tight">{stat.label}</p>
@@ -164,8 +164,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <FadeIn className="flex justify-between items-end mb-10">
             <div>
-              <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: "#C8941A" }}>E-Learning</span>
-              <h2 className="section-title mt-1">Nos Formations</h2>
+              <h2 className="section-title">Nos Formations</h2>
               <p className="section-subtitle">Approfondissez votre foi à travers nos modules en ligne</p>
             </div>
             <Link href="/formations" className="hidden sm:flex items-center gap-1 text-sm font-medium" style={{ color: "#1A3C6E" }}>
@@ -179,7 +178,7 @@ export default function HomePage() {
                 <HoverCard className="h-full">
                   <Link href={`/formations/${module.slug}`} className="card block h-full group">
                     <div className="h-40 flex items-center justify-center overflow-hidden" style={{ backgroundColor: "#1A3C6E" }}>
-                      <motion.div whileHover={{ scale: 1.1, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}>
+                      <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
                         <BookOpen size={40} className="text-white/50" />
                       </motion.div>
                     </div>
@@ -205,8 +204,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <FadeIn className="flex justify-between items-end mb-10">
             <div>
-              <span className="text-sm font-semibold uppercase tracking-wider" style={{ color: "#C8941A" }}>Agenda</span>
-              <h2 className="section-title mt-1">Prochains Événements</h2>
+              <h2 className="section-title">Prochains Événements</h2>
               <p className="section-subtitle">Ne manquez aucune activité de la communauté</p>
             </div>
             <Link href="/evenements" className="hidden sm:flex items-center gap-1 text-sm font-medium" style={{ color: "#1A3C6E" }}>
@@ -220,11 +218,7 @@ export default function HomePage() {
                 <HoverCard className="h-full">
                   <Link href={`/evenements/${event.slug}`} className="card block h-full group">
                     <div className="h-44 flex items-center justify-center relative overflow-hidden" style={{ backgroundColor: "#122a4e" }}>
-                      <motion.div
-                        animate={{ rotate: [0, 5, -5, 0] }}
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}>
-                        <CalendarDays size={48} className="text-white/20" />
-                      </motion.div>
+                      <CalendarDays size={48} className="text-white/20" />
                       <div className="absolute top-3 left-3">
                         <span className={`badge text-xs ${event.status === "complet" ? "badge-danger" : "badge-success"}`}>
                           {event.status === "complet" ? "Complet" : "Ouvert"}

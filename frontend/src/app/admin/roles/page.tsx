@@ -11,7 +11,7 @@ const permissions: Permission[] = [
   { id: "roles",            label: "Gérer les rôles",                    description: "Créer des rôles et configurer les permissions de chacun" },
   { id: "elearning",        label: "Gérer l'E-Learning",                 description: "Créer et modifier les catégories, modules, cours et contenus" },
   { id: "evenements",       label: "Gérer les événements",               description: "Créer des événements et gérer les inscriptions des participants" },
-  { id: "dons",             label: "Gérer les dons & finances",          description: "Consulter et gérer les transactions, dons et rapports financiers" },
+  { id: "dons",             label: "Gérer les dons et finances",          description: "Consulter et gérer les transactions, dons et rapports financiers" },
   { id: "galerie",          label: "Gérer la galerie",                   description: "Ajouter, modifier, publier ou masquer des médias" },
   { id: "site",             label: "Gérer le site vitrine",              description: "Modifier le contenu des pages publiques (Accueil, À propos, Contact…)" },
   { id: "dashboard",        label: "Voir le tableau de bord",            description: "Accéder aux statistiques et indicateurs de la plateforme" },
