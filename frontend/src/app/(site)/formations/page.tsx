@@ -1,15 +1,26 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { BookOpen, Search, Clock, Users } from "lucide-react";
 import { mockModules } from "@/lib/mockData";
 import { PageHeader, FilterPillBar, EmptyState } from "@/components/ui/ui";
 
 const categories = ["Tous", "Théologie", "Bible", "Leadership", "Spiritualité"];
 
-export default function FormationsPage() {
+// Slugs du sous-menu de navigation → catégories affichées
+const catSlugs: Record<string, string> = {
+  theologie: "Théologie",
+  bible: "Bible",
+  leadership: "Leadership",
+  spiritualite: "Spiritualité",
+};
+
+function FormationsContent() {
+  const searchParams = useSearchParams();
+  const initialCat = catSlugs[searchParams.get("cat") ?? ""] ?? "Tous";
   const [search, setSearch] = useState("");
-  const [cat, setCat] = useState("Tous");
+  const [cat, setCat] = useState(initialCat);
 
   const filtered = mockModules.filter((m) => {
     const matchSearch = m.title.toLowerCase().includes(search.toLowerCase());
@@ -63,17 +74,18 @@ export default function FormationsPage() {
                 href={`/formations/${module.slug}`}
                 className="card hover:shadow-md transition-shadow group"
               >
-                <div className="h-44 flex items-center justify-center relative" style={{ backgroundColor: "#1A3C6E" }}>
-                  <BookOpen size={40} className="text-white/40" />
+                <div className="h-36 px-5 flex items-end pb-4 relative" style={{ backgroundColor: "#1A3C6E" }}>
+                  <span className="font-heading text-2xl font-semibold text-white/90 leading-tight" aria-hidden="true">
+                    {module.category}
+                  </span>
                 </div>
                 <div className="p-4">
-                  <span className="badge badge-primary text-xs">{module.category}</span>
-                  <h3 className="font-semibold mt-2 mb-1 text-gray-900 group-hover:text-[#1A3C6E] transition-colors">
+                  <h3 className="font-semibold mb-1 text-gray-900 group-hover:text-[#1A3C6E] transition-colors">
                     {module.title}
                   </h3>
-                  <p className="text-xs text-gray-500 line-clamp-2 mb-3">{module.description}</p>
-                  <p className="text-xs text-gray-400 mb-3">par {module.instructor}</p>
-                  <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100">
+                  <p className="text-xs text-gray-600 line-clamp-2 mb-3">{module.description}</p>
+                  <p className="text-xs text-gray-500 mb-3">par {module.instructor}</p>
+                  <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-100">
                     <span className="flex items-center gap-1"><Clock size={11} /> {module.duration}</span>
                     <span className="flex items-center gap-1"><Users size={11} /> {module.enrolled}</span>
                   </div>
@@ -90,5 +102,13 @@ export default function FormationsPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function FormationsPage() {
+  return (
+    <Suspense fallback={null}>
+      <FormationsContent />
+    </Suspense>
   );
 }

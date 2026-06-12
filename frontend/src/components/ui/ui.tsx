@@ -115,9 +115,9 @@ export function EmptyState({
 }) {
   return (
     <div className={`text-center py-20${className ? ` ${className}` : ""}`}>
-      <div className="flex justify-center mb-3 opacity-50 text-gray-400">{icon}</div>
+      <div className="flex justify-center mb-3 opacity-50 text-gray-500">{icon}</div>
       <p className="font-medium text-gray-500 mb-1">{title}</p>
-      {description && <p className="text-sm text-gray-400">{description}</p>}
+      {description && <p className="text-sm text-gray-500">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
   );

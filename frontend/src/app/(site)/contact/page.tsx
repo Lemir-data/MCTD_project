@@ -1,24 +1,46 @@
 "use client";
-import { MapPin, Phone, Mail, Clock, Facebook, Youtube, Instagram, Linkedin, MessageSquare, Upload, Paperclip } from "lucide-react";
-import { useRef, useState } from "react";
+import { MapPin, Mail, Clock } from "lucide-react";
+import { useState } from "react";
 import { PageHeader } from "@/components/ui/ui";
+import { SuccessCheck } from "@/components/ui/animations";
 
 const focusClass = "focus:outline-none focus:border-[#1A3C6E] focus:ring-2 focus:ring-[#1A3C6E]/20";
 
+// Réseaux sociaux : renseigner les URLs réelles pour réactiver l'affichage.
+const socials: { label: string; href: string }[] = [
+  { label: "Facebook", href: "" },
+  { label: "YouTube", href: "" },
+  { label: "Instagram", href: "" },
+  { label: "LinkedIn", href: "" },
+].filter((s) => s.href);
+
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [nom, setNom] = useState("");
+  const [email, setEmail] = useState("");
+  const [sujet, setSujet] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFileName(e.target.files?.[0]?.name ?? null);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!e.currentTarget.checkValidity()) {
+      setError("Veuillez remplir tous les champs obligatoires.");
+      e.currentTarget.reportValidity();
+      return;
+    }
+    setError("");
+    const body = [`Nom : ${nom}`, `Email : ${email}`, "", message].join("\n");
+    window.location.href = `mailto:contact@jbgmctd.org?subject=${encodeURIComponent(
+      `[Site MCTD] ${sujet || "Message"} — ${nom}`
+    )}&body=${encodeURIComponent(body)}`;
+    setSent(true);
   };
 
   return (
     <div>
       {/* Header */}
       <PageHeader
-        eyebrow="Nous Contacter"
         title="Contactez-nous"
         subtitle="Notre église est disponible pour répondre à toutes vos questions"
       />
@@ -30,23 +52,31 @@ export default function ContactPage() {
             <h2 className="section-title">Envoyer un message</h2>
             {sent ? (
               <div className="card p-8 text-center">
-                <MessageSquare size={40} className="mx-auto mb-4" style={{ color: "#C8941A" }} />
-                <h3 className="font-semibold text-gray-900 mb-2">Message envoyé !</h3>
-                <p className="text-gray-500 text-sm">Nous vous répondrons dans les 24 heures.</p>
-                <button type="button" onClick={() => setSent(false)} className="btn-outline mt-4">Envoyer un autre message</button>
+                <div className="mb-4">
+                  <SuccessCheck size={64} />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-2">Votre message est prêt</h3>
+                <p className="text-gray-600 text-sm">
+                  Un brouillon vient de s'ouvrir dans votre messagerie : envoyez-le et nous vous répondrons rapidement.
+                </p>
+                <p className="text-gray-600 text-sm mt-2">
+                  Si rien ne s'est ouvert, écrivez-nous directement à{" "}
+                  <a href="mailto:contact@jbgmctd.org" className="font-medium hover:underline" style={{ color: "#1A3C6E" }}>
+                    contact@jbgmctd.org
+                  </a>.
+                </p>
+                <button type="button" onClick={() => setSent(false)} className="btn-outline mt-4">Écrire un autre message</button>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-                className="space-y-4"
-                noValidate
-              >
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="contact-nom" className="block text-sm font-medium text-gray-700 mb-1.5">Nom *</label>
                     <input
                       id="contact-nom"
                       required
+                      value={nom}
+                      onChange={(e) => setNom(e.target.value)}
                       placeholder="Votre nom"
                       className={`px-4 py-3 border border-gray-200 rounded-lg text-sm w-full ${focusClass}`}
                     />
@@ -57,6 +87,8 @@ export default function ContactPage() {
                       id="contact-email"
                       type="email"
                       required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="votre@email.com"
                       className={`px-4 py-3 border border-gray-200 rounded-lg text-sm w-full ${focusClass}`}
                     />
@@ -67,7 +99,9 @@ export default function ContactPage() {
                   <select
                     id="contact-sujet"
                     required
-                    className={`w-full px-4 py-3 border border-gray-200 rounded-lg text-sm text-gray-600 ${focusClass}`}
+                    value={sujet}
+                    onChange={(e) => setSujet(e.target.value)}
+                    className={`w-full px-4 py-3 border border-gray-200 rounded-lg text-sm text-gray-700 ${focusClass}`}
                   >
                     <option value="">Choisir un sujet</option>
                     <option>Information générale</option>
@@ -82,25 +116,20 @@ export default function ContactPage() {
                   <textarea
                     id="contact-message"
                     required
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                     placeholder="Votre message"
                     rows={6}
                     className={`w-full px-4 py-3 border border-gray-200 rounded-lg text-sm resize-none ${focusClass}`}
                   />
                 </div>
-                <div>
-                  <label className="text-sm text-gray-500 mb-2 block">Pièce jointe (optionnel)</label>
-                  <input ref={fileInputRef} type="file" className="hidden" id="contact-file" onChange={handleFileChange} />
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full flex items-center gap-2.5 px-4 py-3 rounded-lg border-2 border-dashed text-sm transition-colors cursor-pointer hover:border-[#1A3C6E] hover:text-[#1A3C6E]"
-                    style={{ borderColor: fileName ? "#1A3C6E" : "#E2E8F0", color: fileName ? "#1A3C6E" : "#9CA3AF" }}
-                    aria-label={fileName ? `Fichier joint : ${fileName}` : "Joindre un fichier"}
-                  >
-                    {fileName ? <Paperclip size={16} className="shrink-0" /> : <Upload size={16} className="shrink-0" />}
-                    <span className="truncate">{fileName ?? "Cliquez ici pour joindre un fichier"}</span>
-                  </button>
-                </div>
+                <p className="text-xs text-gray-500">
+                  Une pièce jointe à transmettre ? Envoyez-la directement à{" "}
+                  <a href="mailto:contact@jbgmctd.org" className="font-medium hover:underline" style={{ color: "#1A3C6E" }}>
+                    contact@jbgmctd.org
+                  </a>.
+                </p>
+                {error && <p role="alert" className="error-in text-sm" style={{ color: "#B91C1C" }}>{error}</p>}
                 <button type="submit" className="btn-primary w-full justify-center py-3">
                   Envoyer le message
                 </button>
@@ -114,7 +143,6 @@ export default function ContactPage() {
             <div className="space-y-4">
               {[
                 { icon: MapPin, title: "Adresse", content: "Cocody Riviera 3, cité EECI\nAbidjan, Côte d'Ivoire" },
-                { icon: Phone, title: "Téléphones", content: "+225 XX XX XX XX XX\n+225 XX XX XX XX XX" },
                 { icon: Mail, title: "Emails", content: "contact@jbgmctd.org\npastoral@jbgmctd.org" },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-4 card p-5">
@@ -123,7 +151,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-                    {item.content.split("\n").map((l, i) => <p key={i} className="text-sm text-gray-500">{l}</p>)}
+                    {item.content.split("\n").map((l, i) => <p key={i} className="text-sm text-gray-600">{l}</p>)}
                   </div>
                 </div>
               ))}
@@ -135,7 +163,7 @@ export default function ContactPage() {
                 <Clock size={18} style={{ color: "#C8941A" }} />
                 <h3 className="font-semibold text-gray-900">Horaires des Cultes</h3>
               </div>
-              <div className="space-y-2 text-sm text-gray-500">
+              <div className="space-y-2 text-sm text-gray-600">
                 {[
                   ["Mercredi", "18h30 (Chapelet)"],
                   ["Vendredi", "17h00 (Adoration)"],
@@ -150,29 +178,26 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Réseaux sociaux */}
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Suivez-nous</h3>
-              <div className="flex gap-3">
-                {[
-                  { icon: Facebook, label: "Facebook" },
-                  { icon: Youtube, label: "YouTube" },
-                  { icon: Instagram, label: "Instagram" },
-                  { icon: Linkedin, label: "LinkedIn" },
-                ].map(({ icon: Icon, label }) => (
-                  <a
-                    key={label}
-                    href="#"
-                    aria-label={`Suivez MCTD sur ${label}`}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors"
-                    style={{ borderColor: "#1A3C6E", color: "#1A3C6E" }}
-                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#1A3C6E"; e.currentTarget.style.color = "#fff"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#1A3C6E"; }}>
-                    <Icon size={16} /> {label}
-                  </a>
-                ))}
+            {/* Réseaux sociaux — affichés uniquement quand les URLs réelles sont renseignées */}
+            {socials.length > 0 && (
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Suivez-nous</h3>
+                <div className="flex gap-3">
+                  {socials.map(({ label, href }) => (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Suivez MCTD sur ${label}`}
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors"
+                      style={{ borderColor: "#1A3C6E", color: "#1A3C6E" }}>
+                      {label}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

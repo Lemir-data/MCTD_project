@@ -86,12 +86,12 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ s
                   <div className="flex-1">
                     <Link
                       href={course.isPreview || course.completed ? `/formations/${slug}/cours/${course.id}` : "#"}
-                      className={`font-medium text-sm ${course.isPreview || course.completed ? "hover:text-[#1A3C6E]" : "text-gray-400"}`}
+                      className={`font-medium text-sm ${course.isPreview || course.completed ? "hover:text-[#1A3C6E]" : "text-gray-500"}`}
                     >
                       {course.title}
                     </Link>
                     <div className="flex items-center gap-3 mt-0.5">
-                      <span className="text-xs text-gray-400 flex items-center gap-1">
+                      <span className="text-xs text-gray-500 flex items-center gap-1">
                         {course.type === "video" ? <Play size={10} /> : <FileText size={10} />}
                         {course.type === "video" ? "Vidéo" : "PDF"} — {course.duration}
                       </span>
@@ -115,7 +115,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ s
                 </div>
                 <div>
                   <p className="font-medium text-sm text-gray-900">{module.instructor}</p>
-                  <p className="text-xs text-gray-400">Formateur MCTD</p>
+                  <p className="text-xs text-gray-500">Formateur MCTD</p>
                 </div>
               </div>
             </div>

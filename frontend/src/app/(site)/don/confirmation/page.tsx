@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle, Download, Home, Heart } from "lucide-react";
+import { CheckCircle, Home, Heart, Mail } from "lucide-react";
 
 export default function DonConfirmationPage() {
   return (
@@ -10,38 +10,23 @@ export default function DonConfirmationPage() {
           <CheckCircle size={40} style={{ color: "#16a34a" }} />
         </div>
         <h1 className="font-heading text-3xl font-bold mb-3" style={{ color: "#1A3C6E" }}>
-          Merci pour votre don !
+          Merci pour votre générosité
         </h1>
         <p className="text-gray-600 mb-2">
-          Votre don de <strong style={{ color: "#C8941A" }}>5 000 FCFA</strong> a bien été reçu.
+          Votre intention de don a bien été transmise. Notre équipe vous contactera très prochainement pour finaliser le paiement.
         </p>
-        <p className="text-gray-500 text-sm mb-8">
-          Un reçu PDF a été envoyé à votre adresse email. Que Dieu vous bénisse pour votre générosité.
+        <p className="text-gray-600 text-sm mb-8">
+          Que Dieu vous bénisse. Pour toute question, écrivez-nous à{" "}
+          <a href="mailto:contact@jbgmctd.org" className="font-medium hover:underline" style={{ color: "#1A3C6E" }}>
+            contact@jbgmctd.org
+          </a>.
         </p>
-
-        <div className="card p-5 mb-6 text-left">
-          <h3 className="font-semibold text-gray-900 mb-3">Récapitulatif</h3>
-          <div className="space-y-2 text-sm">
-            {[
-              ["Référence", "TXN-2025-00142"],
-              ["Montant", "5 000 FCFA"],
-              ["Méthode", "Wave CI"],
-              ["Cause", "Général"],
-              ["Date", "05 Juin 2025 — 14h32"],
-            ].map(([label, value]) => (
-              <div key={label} className="flex justify-between">
-                <span className="text-gray-500">{label}</span>
-                <span className="font-medium text-gray-900">{value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
         <div className="flex flex-col gap-3">
-          <button className="btn-secondary justify-center py-3">
-            <Download size={18} /> Télécharger le reçu PDF
-          </button>
-          <Link href="/" className="btn-outline justify-center py-3">
+          <a href="mailto:contact@jbgmctd.org" className="btn-outline justify-center py-3">
+            <Mail size={18} /> Nous écrire
+          </a>
+          <Link href="/" className="btn-primary justify-center py-3">
             <Home size={18} /> Retour à l'accueil
           </Link>
           <Link href="/don" className="text-sm" style={{ color: "#1A3C6E" }}>

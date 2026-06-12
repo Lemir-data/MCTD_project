@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { Menu, X, Heart, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
 import { ScrollProgress } from "@/components/ui/animations";
 
@@ -11,7 +11,7 @@ const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/a-propos", label: "À Propos" },
   {
-    label: "E-learning",
+    label: "Formations",
     href: "/formations",
     children: [
       { href: "/formations?cat=theologie", label: "Théologie" },
@@ -58,7 +58,7 @@ export default function Navbar() {
               <span className="font-bold text-lg font-heading" style={{ color: "#1A3C6E" }}>
                 MCTD
               </span>
-              <p className="text-[10px] text-gray-400 leading-tight hidden lg:block">
+              <p className="text-[10px] text-gray-500 leading-tight hidden lg:block">
                 Ministère Catholique de<br />Transformation et de Développement
               </p>
             </div>
@@ -80,7 +80,7 @@ export default function Navbar() {
                     {link.label}
                     <ChevronDown size={14} />
                   </Link>
-                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                  <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 transition-all duration-200 ease-out z-50">
                     {link.children.map((child) => (
                       <Link
                         key={child.href}
@@ -112,35 +112,28 @@ export default function Navbar() {
           <div className="flex items-center gap-3 ml-auto lg:ml-0 shrink-0">
             <Link
               href="/don"
-              className="btn-nav-don hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white whitespace-nowrap shrink-0"
+              className="btn-nav-don heartbeat-hover hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white whitespace-nowrap shrink-0"
               style={{ backgroundColor: "#C8941A" }}
             >
-              <motion.span
-                className="inline-flex"
-                animate={shouldReduce ? {} : { scale: [1, 1.22, 1] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Heart size={15} />
-              </motion.span>
+              <Heart size={15} />
               Faire un don
             </Link>
-            {!isLoggedIn && (
-              <>
-                <Link
-                  href="/auth/inscription"
-                  className="btn-nav-inscription hidden lg:block px-4 py-2 rounded-lg text-sm font-medium border-2"
-                  style={{ borderColor: "#C8941A" }}
-                >
-                  Inscription
-                </Link>
-                <Link
-                  href="/auth/connexion"
-                  className="btn-nav-connexion hidden lg:block px-4 py-2 rounded-lg text-sm font-medium border-2"
-                  style={{ borderColor: "#1A3C6E" }}
-                >
-                  Connexion
-                </Link>
-              </>
+            {isLoggedIn ? (
+              <Link
+                href="/dashboard"
+                className="btn-nav-connexion hidden lg:block px-4 py-2 rounded-lg text-sm font-medium border-2"
+                style={{ borderColor: "#1A3C6E" }}
+              >
+                Mon Espace
+              </Link>
+            ) : (
+              <Link
+                href="/auth/connexion"
+                className="btn-nav-connexion hidden lg:block px-4 py-2 rounded-lg text-sm font-medium border-2"
+                style={{ borderColor: "#1A3C6E" }}
+              >
+                Connexion
+              </Link>
             )}
 
             {/* Mobile menu button */}
@@ -158,8 +151,15 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
+      <AnimatePresence>
       {mobileOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-1">
+        <motion.div
+          className="lg:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-1"
+          initial={shouldReduce ? false : { opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={shouldReduce ? undefined : { opacity: 0, y: -8 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -175,22 +175,22 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-2 flex flex-col gap-2">
-            <Link href="/don" onClick={() => setMobileOpen(false)} className="btn-secondary text-center justify-center">
+            <Link href="/don" onClick={() => setMobileOpen(false)} className="btn-secondary heartbeat-hover text-center justify-center">
               <Heart size={15} /> Faire un don
             </Link>
-            {!isLoggedIn && (
-              <>
-                <Link href="/auth/inscription" onClick={() => setMobileOpen(false)} className="btn-outline-gold text-center justify-center">
-                  Inscription
-                </Link>
-                <Link href="/auth/connexion" onClick={() => setMobileOpen(false)} className="btn-outline text-center justify-center">
-                  Connexion
-                </Link>
-              </>
+            {isLoggedIn ? (
+              <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="btn-outline text-center justify-center">
+                Mon Espace
+              </Link>
+            ) : (
+              <Link href="/auth/connexion" onClick={() => setMobileOpen(false)} className="btn-outline text-center justify-center">
+                Connexion
+              </Link>
             )}
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </header>
     </>
   );

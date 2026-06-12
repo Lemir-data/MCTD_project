@@ -16,7 +16,7 @@
   --color-foreground: #0F172A;
   --color-foreground-muted: #475569;
 
-  --font-heading: "EB Garamond", Georgia, serif;
+  --font-heading: var(--font-garamond), "EB Garamond", Georgia, serif;
   --font-body: var(--font-nunito), "Nunito", system-ui, sans-serif;
 
   --radius: 0.75rem;
@@ -26,6 +26,12 @@
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body {
@@ -95,26 +101,6 @@ h1, h2, h3 {
   }
   .btn-nav-connexion:hover { color: white; }
   .btn-nav-connexion:hover::before { transform: translateX(0); }
-
-  /* ── Bouton inscription : remplissage doré au survol ── */
-  .btn-nav-inscription {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-    color: #C8941A;
-    transition: color 0.3s ease;
-  }
-  .btn-nav-inscription::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: #C8941A;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: -1;
-  }
-  .btn-nav-inscription:hover { color: white; }
-  .btn-nav-inscription:hover::before { transform: translateX(0); }
 
   /* ── Bouton faire un don : remplissage doré foncé au survol ── */
   .btn-nav-don {
@@ -196,12 +182,49 @@ h1, h2, h3 {
   box-shadow: 0 8px 30px rgba(26, 60, 110, 0.1);
 }
 
-/* Boutons — retour haptique */
-.btn-primary, .btn-secondary, .btn-outline {
-  transition: background-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.15s;
+/* Boutons — retour haptique : lift discret au survol, pression au clic */
+.btn-primary, .btn-secondary, .btn-outline, .btn-outline-gold {
+  transition: background-color 0.2s, color 0.2s,
+    transform 0.2s var(--ease-out-quint), box-shadow 0.2s var(--ease-out-quint);
 }
-.btn-primary:active, .btn-secondary:active, .btn-outline:active {
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(26, 60, 110, 0.22); }
+.btn-secondary:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(200, 148, 26, 0.28); }
+.btn-outline:hover, .btn-outline-gold:hover { transform: translateY(-1px); }
+.btn-primary:active, .btn-secondary:active, .btn-outline:active, .btn-outline-gold:active {
   transform: scale(0.97);
+  box-shadow: none;
+}
+
+/* Cœur des CTA don — un seul battement au survol, jamais en boucle */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.25); }
+  55% { transform: scale(1); }
+  75% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.heartbeat-hover svg { transform-origin: center; }
+.heartbeat-hover:hover svg {
+  animation: heartbeat 0.6s var(--ease-out-quart);
+}
+
+/* Messages d'erreur de formulaire — apparition en fondu glissé */
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.error-in {
+  animation: fade-slide-in 0.25s var(--ease-out-quint) both;
+}
+
+/* Hero — Ken Burns lent et digne sur l'image active */
+@keyframes kenburns {
+  from { transform: scale(1.06); }
+  to { transform: scale(1); }
+}
+.kenburns {
+  animation: kenburns 9s var(--ease-out-quart) both;
+  will-change: transform;
 }
 
 /* Inputs — focus smooth */

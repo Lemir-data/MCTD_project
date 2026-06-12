@@ -314,6 +314,6 @@ export const mockMagazines = [
   },
 ];
 
-export const mockNewsBanners: { id: string; text: string; color: string; mode: "defilant" | "clignotant"; actif: boolean }[] = [
-  { id: "1", text: "Conférence spirituelle annuelle — inscriptions ouvertes !", color: "#C8941A", mode: "defilant", actif: true },
+export const mockNewsBanners: { id: string; text: string; color: string; mode: "defilant" | "clignotant"; actif: boolean; href?: string }[] = [
+  { id: "1", text: "Conférence spirituelle annuelle — inscriptions ouvertes !", color: "#C8941A", mode: "defilant", actif: true, href: "/evenements" },
 ];

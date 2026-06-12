@@ -21,7 +21,7 @@ export default async function CoursPage({ params }: { params: Promise<{ slug: st
             <div className="h-1.5 rounded-full bg-gray-200">
               <div className="h-1.5 rounded-full" style={{ backgroundColor: "#1A3C6E", width: `${((courseIndex + 1) / mockCourses.length) * 100}%` }} />
             </div>
-            <p className="text-xs text-gray-400 mt-1 text-center">{courseIndex + 1} / {mockCourses.length}</p>
+            <p className="text-xs text-gray-500 mt-1 text-center">{courseIndex + 1} / {mockCourses.length}</p>
           </div>
           <button className="btn-primary py-2 text-sm">
             <CheckCircle size={15} /> Marquer comme vu
@@ -113,7 +113,7 @@ export default async function CoursPage({ params }: { params: Promise<{ slug: st
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className={`text-xs font-medium truncate ${c.id === courseId ? "text-[#1A3C6E]" : "text-gray-700"}`}>{c.title}</p>
-                    <p className="text-xs text-gray-400">{c.duration}</p>
+                    <p className="text-xs text-gray-500">{c.duration}</p>
                   </div>
                 </Link>
               ))}

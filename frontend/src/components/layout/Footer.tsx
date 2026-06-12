@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Mail, Clock } from "lucide-react";
 
 const IconFacebook = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -24,6 +24,14 @@ const IconLinkedin = () => (
   </svg>
 );
 
+// Réseaux sociaux : renseigner les URLs réelles pour réactiver les icônes.
+const socialLinks = [
+  { label: "Facebook", href: "", icon: IconFacebook },
+  { label: "YouTube", href: "", icon: IconYoutube },
+  { label: "Instagram", href: "", icon: IconInstagram },
+  { label: "LinkedIn", href: "", icon: IconLinkedin },
+].filter((s) => s.href);
+
 export default function Footer() {
   return (
     <footer style={{ backgroundColor: "#1A3C6E" }} className="text-white mt-auto">
@@ -32,7 +40,9 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-11 w-auto object-contain" />
+              <span className="inline-flex items-center justify-center rounded-lg bg-white p-1">
+                <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-9 w-auto object-contain" />
+              </span>
               <div>
                 <p className="font-bold text-lg font-heading">MCTD</p>
                 <p className="text-xs text-blue-200">Ministère Catholique de Transformation et de Développement</p>
@@ -41,20 +51,16 @@ export default function Footer() {
             <p className="text-blue-200 text-sm leading-relaxed">
               « Vivre de la vie de Dieu » — Faire sortir le peuple de la pauvreté. Une communauté engagée dans la transformation spirituelle, personnelle et professionnelle, à Abidjan et au-delà.
             </p>
-            <div className="flex gap-3 mt-4">
-              <a href="#" aria-label="MCTD sur Facebook" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconFacebook />
-              </a>
-              <a href="#" aria-label="MCTD sur YouTube" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconYoutube />
-              </a>
-              <a href="#" aria-label="MCTD sur Instagram" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconInstagram />
-              </a>
-              <a href="#" aria-label="MCTD sur LinkedIn" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconLinkedin />
-              </a>
-            </div>
+            {socialLinks.length > 0 && (
+              <div className="flex gap-3 mt-4">
+                {socialLinks.map(({ label, href, icon: Icon }) => (
+                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`MCTD sur ${label}`}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
+                    <Icon />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Liens rapides */}
@@ -114,12 +120,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={14} className="shrink-0 text-[#C8941A]" />
-                <a href="tel:+225XXXXXXXXXX" className="hover:text-white">+225 XX XX XX XX XX</a>
+                <Mail size={14} className="shrink-0 text-[#C8941A]" />
+                <a href="mailto:contact@jbgmctd.org" className="hover:text-white">contact@jbgmctd.org</a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={14} className="shrink-0 text-[#C8941A]" />
-                <a href="mailto:contact@jbgmctd.org" className="hover:text-white">contact@jbgmctd.org</a>
+                <a href="mailto:pastoral@jbgmctd.org" className="hover:text-white">pastoral@jbgmctd.org</a>
               </li>
             </ul>
           </div>
@@ -128,8 +134,8 @@ export default function Footer() {
         <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-blue-300">
           <p>© 2026 MCTD. Par <a href="https://africadigitalconnect.net/" target="_blank" rel="noopener noreferrer" style={{ color: "#C8941A" }} className="hover:underline">Africa Digital Connect</a>.</p>
           <div className="flex gap-4">
-            <Link href="#" className="hover:text-white">Confidentialité</Link>
-            <Link href="#" className="hover:text-white">Mentions légales</Link>
+            <Link href="/confidentialite" className="hover:text-white">Confidentialité</Link>
+            <Link href="/mentions-legales" className="hover:text-white">Mentions légales</Link>
           </div>
         </div>
       </div>

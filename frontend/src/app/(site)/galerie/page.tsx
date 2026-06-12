@@ -45,7 +45,6 @@ export default function GaleriePage() {
     <div>
       {/* Header */}
       <PageHeader
-        eyebrow="Médiathèque"
         title="Galerie MCTD"
         subtitle="Revivez les moments forts de notre communauté en photos et vidéos"
       />
@@ -97,7 +96,7 @@ export default function GaleriePage() {
               </div>
               <div className="p-3">
                 <p className="text-xs font-semibold text-gray-900 truncate">{item.title}</p>
-                <p className="text-xs text-gray-400">{item.date}</p>
+                <p className="text-xs text-gray-500">{item.date}</p>
                 <span className="badge badge-primary text-xs mt-1">{item.category}</span>
               </div>
             </div>

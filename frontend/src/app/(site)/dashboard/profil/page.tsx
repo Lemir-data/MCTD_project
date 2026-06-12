@@ -60,7 +60,7 @@ export default function ProfilPage() {
               </div>
               <div>
                 <p className="font-semibold text-gray-900">{form.prenoms} {form.nom}</p>
-                <p className="text-sm text-gray-400">{form.email}</p>
+                <p className="text-sm text-gray-500">{form.email}</p>
                 <p className="text-xs mt-1.5 px-3 py-1 rounded-full inline-block" style={{ backgroundColor: "#EFF6FF", color: "#1A3C6E" }}>
                   Membre actif
                 </p>

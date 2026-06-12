@@ -97,7 +97,6 @@ export default function BoutiquePage() {
     <div>
       {/* Header */}
       <PageHeader
-        eyebrow="Ressources MCTD"
         title="Boutique"
         subtitle={
           <span className="max-w-2xl mx-auto block">
@@ -156,7 +155,7 @@ export default function BoutiquePage() {
       {/* Grille */}
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <p className="text-sm text-gray-400 mb-6">{allItems.length} article{allItems.length > 1 ? "s" : ""}</p>
+          <p className="text-sm text-gray-500 mb-6">{allItems.length} article{allItems.length > 1 ? "s" : ""}</p>
 
           <StaggerContainer key={activeTab} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
             {allItems.map((item) => {
@@ -206,7 +205,7 @@ export default function BoutiquePage() {
                       <div className="mt-auto pt-2 flex items-center justify-between gap-2">
                         <PriceBadge price={item.price} />
                         {isBook && book && (
-                          <span className="text-[10px] text-gray-400">{book.pages} p.</span>
+                          <span className="text-[10px] text-gray-500">{book.pages} p.</span>
                         )}
                       </div>
 
@@ -219,7 +218,7 @@ export default function BoutiquePage() {
                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         className={`w-full py-2 rounded-lg text-xs font-semibold mt-1 ${
                           !item.inStock
-                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                            ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                             : "text-white"
                         }`}
                         style={
