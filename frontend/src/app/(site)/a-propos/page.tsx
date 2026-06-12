@@ -2,6 +2,7 @@
 import { mockPastoral } from "@/lib/mockData";
 import { Heart, Users, BookOpen, Globe } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FadeIn, StaggerContainer, StaggerItem, HoverCard, TiltCard, AnimatedCounter } from "@/components/ui/animations";
 
@@ -23,31 +24,24 @@ export default function AProposPage() {
   return (
     <div>
       {/* Header */}
-      <section className="py-20 px-4 text-white overflow-hidden" style={{ background: "linear-gradient(135deg, #1A3C6E, #122a4e)" }}>
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.span
-            className="text-sm font-semibold uppercase tracking-wider inline-block"
-            style={{ color: "#C8941A" }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}>
-            Notre Histoire
-          </motion.span>
-          <motion.h1
-            className="font-heading text-4xl md:text-5xl font-bold mt-3 mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}>
-            À Propos du MCTD
-          </motion.h1>
-          <motion.p
-            className="text-blue-200 text-lg max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}>
-            Le Ministère Catholique de Transformation et de Développement accompagne les fidèles d'Abidjan et d'ailleurs à « vivre de la vie de Dieu ».
-          </motion.p>
+      <section className="relative aspect-[1662/946] flex items-end px-4 pb-24 text-white overflow-hidden" style={{ background: "linear-gradient(135deg, #1A3C6E, #122a4e)" }}>
+        <div className="absolute inset-0">
+          <Image
+            src="/logos/apropos.png"
+            alt=""
+            fill
+            priority
+            className="object-contain"
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(18,42,78,0.15) 0%, rgba(18,42,78,0.15) 60%, rgba(18,42,78,0.85) 100%)" }} />
         </div>
+        <motion.p
+          className="relative w-full max-w-2xl ml-auto text-right text-blue-100 text-lg"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}>
+          Le Ministère Catholique de Transformation et de Développement accompagne les fidèles d'Abidjan et d'ailleurs à « vivre de la vie de Dieu ».
+        </motion.p>
       </section>
 
       {/* Histoire */}
