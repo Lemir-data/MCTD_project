@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Mail, Clock, Send } from "lucide-react";
 
 const IconFacebook = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -24,15 +26,35 @@ const IconLinkedin = () => (
   </svg>
 );
 
+// Réseaux sociaux : renseigner les URLs réelles des comptes MCTD.
+const socialLinks = [
+  { label: "Facebook", href: "#", icon: IconFacebook },
+  { label: "YouTube", href: "#", icon: IconYoutube },
+  { label: "Instagram", href: "#", icon: IconInstagram },
+  { label: "LinkedIn", href: "#", icon: IconLinkedin },
+];
+
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail("");
+  };
+
   return (
     <footer style={{ backgroundColor: "#1A3C6E" }} className="text-white mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Brand */}
-          <div>
+          <div className="lg:col-span-2 lg:-ml-4">
             <div className="flex items-center gap-2 mb-4">
-              <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-11 w-auto object-contain" />
+              <span className="inline-flex items-center justify-center rounded-lg bg-white p-1">
+                <img src="/logos/logo_mctd.jpg" alt="MCTD" className="h-9 w-auto object-contain" />
+              </span>
               <div>
                 <p className="font-bold text-lg font-heading">MCTD</p>
                 <p className="text-xs text-blue-200">Ministère Catholique de Transformation et de Développement</p>
@@ -41,43 +63,16 @@ export default function Footer() {
             <p className="text-blue-200 text-sm leading-relaxed">
               « Vivre de la vie de Dieu » — Faire sortir le peuple de la pauvreté. Une communauté engagée dans la transformation spirituelle, personnelle et professionnelle, à Abidjan et au-delà.
             </p>
-            <div className="flex gap-3 mt-4">
-              <a href="#" aria-label="MCTD sur Facebook" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconFacebook />
-              </a>
-              <a href="#" aria-label="MCTD sur YouTube" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconYoutube />
-              </a>
-              <a href="#" aria-label="MCTD sur Instagram" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconInstagram />
-              </a>
-              <a href="#" aria-label="MCTD sur LinkedIn" className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
-                <IconLinkedin />
-              </a>
-            </div>
-          </div>
-
-          {/* Liens rapides */}
-          <div>
-            <h3 className="font-semibold text-[#C8941A] mb-4 uppercase text-xs tracking-wider">Navigation</h3>
-            <ul className="space-y-2">
-              {[
-                { href: "/", label: "Accueil" },
-                { href: "/a-propos", label: "À Propos" },
-                { href: "/formations", label: "Formations" },
-                { href: "/evenements", label: "Événements" },
-                { href: "/galerie", label: "Galerie" },
-                { href: "/boutique", label: "Boutique" },
-                { href: "/don", label: "Faire un Don" },
-                { href: "/contact", label: "Contact" },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-blue-200 hover:text-white text-sm transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {socialLinks.length > 0 && (
+              <div className="flex gap-3 mt-4">
+                {socialLinks.map(({ label, href, icon: Icon }) => (
+                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`MCTD sur ${label}`}
+                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#C8941A] flex items-center justify-center transition-colors">
+                    <Icon />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Horaires */}
@@ -114,22 +109,56 @@ export default function Footer() {
                 </Link>
               </li>
               <li className="flex items-center gap-2">
-                <Phone size={14} className="shrink-0 text-[#C8941A]" />
-                <a href="tel:+225XXXXXXXXXX" className="hover:text-white">+225 XX XX XX XX XX</a>
-              </li>
-              <li className="flex items-center gap-2">
                 <Mail size={14} className="shrink-0 text-[#C8941A]" />
                 <a href="mailto:contact@jbgmctd.org" className="hover:text-white">contact@jbgmctd.org</a>
               </li>
+              <li className="flex items-center gap-2">
+                <Mail size={14} className="shrink-0 text-[#C8941A]" />
+                <a href="mailto:pastoral@jbgmctd.org" className="hover:text-white">pastoral@jbgmctd.org</a>
+              </li>
             </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div className="lg:col-span-2 lg:ml-8">
+            <h3 className="font-semibold text-[#C8941A] mb-4 uppercase text-xs tracking-wider">Newsletter</h3>
+            <p className="text-blue-200 text-sm leading-relaxed mb-4">
+              Recevez nos actualités, formations et événements directement par e-mail.
+            </p>
+            {subscribed ? (
+              <p className="text-sm font-medium" style={{ color: "#C8941A" }}>
+                Merci ! Votre inscription a bien été prise en compte.
+              </p>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="email"
+                  required
+                  aria-label="Votre adresse e-mail"
+                  placeholder="Votre adresse e-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input-white flex-1 px-4 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
+                  style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
+                />
+                <button
+                  type="submit"
+                  aria-label="S'abonner à la newsletter"
+                  className="flex items-center justify-center px-4 py-2.5 rounded-lg text-white transition-colors hover:opacity-90"
+                  style={{ backgroundColor: "#C8941A" }}
+                >
+                  <Send size={15} />
+                </button>
+              </form>
+            )}
           </div>
         </div>
 
         <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-blue-300">
           <p>© 2026 MCTD. Par <a href="https://africadigitalconnect.net/" target="_blank" rel="noopener noreferrer" style={{ color: "#C8941A" }} className="hover:underline">Africa Digital Connect</a>.</p>
           <div className="flex gap-4">
-            <Link href="#" className="hover:text-white">Confidentialité</Link>
-            <Link href="#" className="hover:text-white">Mentions légales</Link>
+            <Link href="/confidentialite" className="hover:text-white">Confidentialité</Link>
+            <Link href="/mentions-legales" className="hover:text-white">Mentions légales</Link>
           </div>
         </div>
       </div>

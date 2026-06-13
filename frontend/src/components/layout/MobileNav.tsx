@@ -3,17 +3,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, GraduationCap, Heart, CalendarDays, User } from "lucide-react";
-
-const tabs = [
-  { href: "/", icon: Home, label: "Accueil" },
-  { href: "/formations", icon: GraduationCap, label: "Formations" },
-  { href: "/don", icon: Heart, label: "Donner", center: true },
-  { href: "/evenements", icon: CalendarDays, label: "Événements" },
-  { href: "/auth/connexion", icon: User, label: "Mon Compte" },
-];
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function MobileNav() {
   const pathname = usePathname();
+  const { isLoggedIn } = useAuth();
+
+  const tabs = [
+    { href: "/", icon: Home, label: "Accueil" },
+    { href: "/formations", icon: GraduationCap, label: "Formations" },
+    { href: "/don", icon: Heart, label: "Donner", center: true },
+    { href: "/evenements", icon: CalendarDays, label: "Événements" },
+    { href: isLoggedIn ? "/dashboard" : "/auth/connexion", icon: User, label: "Mon Compte" },
+  ];
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);

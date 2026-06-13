@@ -41,7 +41,7 @@ export default async function EvenementDetailPage({ params }: { params: Promise<
                 <div key={item.label} className="card p-4 flex items-start gap-3">
                   <item.icon size={18} style={{ color: "#C8941A" }} className="mt-0.5 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-400 font-medium uppercase">{item.label}</p>
+                    <p className="text-xs text-gray-500 font-medium uppercase">{item.label}</p>
                     {item.value.split("\n").map((l, i) => <p key={i} className="text-sm font-semibold text-gray-900">{l}</p>)}
                   </div>
                 </div>

@@ -34,7 +34,7 @@ export default function InscriptionEvenementPage({ params }: { params: Promise<{
                   style={i <= step ? { backgroundColor: "#1A3C6E" } : {}}>
                   {i < step ? <CheckCircle size={16} /> : i + 1}
                 </div>
-                <span className={`text-xs mt-1 font-medium ${i === step ? "text-[#1A3C6E]" : "text-gray-400"}`}>{s}</span>
+                <span className={`text-xs mt-1 font-medium ${i === step ? "text-[#1A3C6E]" : "text-gray-500"}`}>{s}</span>
               </div>
               {i < steps.length - 1 && (
                 <div className="flex-1 h-0.5 mx-2 mt-[-14px]" style={{ backgroundColor: i < step ? "#1A3C6E" : "#E2E8F0" }} />
@@ -107,7 +107,7 @@ export default function InscriptionEvenementPage({ params }: { params: Promise<{
                 Un email de confirmation avec votre QR Code a été envoyé à jean@email.com
               </p>
               <div className="w-32 h-32 bg-gray-100 rounded-lg mx-auto flex items-center justify-center mb-4">
-                <p className="text-xs text-gray-400">QR Code</p>
+                <p className="text-xs text-gray-500">QR Code</p>
               </div>
               <div className="flex flex-col gap-3 mt-4">
                 <button className="btn-primary justify-center">Télécharger ma convocation</button>

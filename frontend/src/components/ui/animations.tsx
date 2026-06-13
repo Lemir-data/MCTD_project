@@ -30,9 +30,10 @@ export function AnimatedCounter({
   const animated = useRef(false);
   const shouldReduce = useReducedMotion();
 
-  const clean = value.replace(/\s/g, "");
-  const match = clean.match(/^(\d+)(.*)$/);
-  const num = match ? parseInt(match[1]) : 0;
+  // Sépare la partie numérique (espaces de milliers inclus) du suffixe, en
+  // préservant l'espace qui précède le suffixe (« 1 240 000 FCFA »).
+  const match = value.match(/^([\d\s  ]*\d)(.*)$/);
+  const num = match ? parseInt(match[1].replace(/[\s  ]/g, ""), 10) : 0;
   const suffix = match ? match[2] : "";
 
   const [display, setDisplay] = useState("0" + suffix);
@@ -81,11 +82,11 @@ export function AnimatedCounter({
   );
 }
 
-/* ── Bandeau d'informations (défilant ou clignotant) ── */
+/* ── Bandeau d'informations (défilant ou statique) ── */
 export function NewsTicker({
   banners,
 }: {
-  banners: { id: string; text: string; color: string; mode: "defilant" | "clignotant"; actif: boolean }[];
+  banners: { id: string; text: string; color: string; mode: "defilant" | "clignotant"; actif: boolean; href?: string }[];
 }) {
   const shouldReduce = useReducedMotion();
   const actives = banners.filter((b) => b.actif && b.text.trim());
@@ -93,30 +94,33 @@ export function NewsTicker({
 
   return (
     <div>
-      {actives.map((b) => (
-        <div key={b.id} className="overflow-hidden py-2" style={{ backgroundColor: b.color }}>
-          {b.mode === "defilant" && !shouldReduce ? (
+      {actives.map((b) => {
+        // Vitesse proportionnelle à la longueur du texte, lisible par tous
+        const duration = Math.max(14, b.text.length * 0.45);
+        const content =
+          b.mode === "defilant" && !shouldReduce ? (
             <motion.p
               className="whitespace-nowrap text-sm font-semibold text-white inline-block"
               style={{ paddingLeft: "100%" }}
               animate={{ x: ["0%", "-100%"] }}
-              transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
-            >
-              {b.text}
-            </motion.p>
-          ) : b.mode === "clignotant" && !shouldReduce ? (
-            <motion.p
-              className="text-center text-sm font-semibold text-white px-4"
-              animate={{ opacity: [1, 0.6, 1] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration, repeat: Infinity, ease: "linear" }}
             >
               {b.text}
             </motion.p>
           ) : (
             <p className="text-center text-sm font-semibold text-white px-4">{b.text}</p>
-          )}
-        </div>
-      ))}
+          );
+
+        return b.href ? (
+          <a key={b.id} href={b.href} className="block overflow-hidden py-2 hover:opacity-90 transition-opacity" style={{ backgroundColor: b.color }}>
+            {content}
+          </a>
+        ) : (
+          <div key={b.id} className="overflow-hidden py-2" style={{ backgroundColor: b.color }}>
+            {content}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -291,7 +295,7 @@ export function TiltCard({
   );
 }
 
-/* ── Pulse animé (cœur, icône) — une seule pulsation au montage ── */
+/* ── Pulse animé (cœur, icône) — pulsation en continu ── */
 export function PulseIcon({ children, className }: { children: ReactNode; className?: string }) {
   const shouldReduce = useReducedMotion();
 
@@ -302,10 +306,51 @@ export function PulseIcon({ children, className }: { children: ReactNode; classN
   return (
     <motion.div
       className={className}
-      animate={{ scale: [1, 1.10, 1] }}
-      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      animate={{ scale: [1, 1.1, 1, 1.1, 1] }}
+      transition={{ duration: 3.6, ease: "easeInOut", repeat: Infinity }}
     >
       {children}
+    </motion.div>
+  );
+}
+
+/* ── Coche de succès — cercle qui s'emplit puis coche qui se dessine ── */
+export function SuccessCheck({ size = 80 }: { size?: number }) {
+  const shouldReduce = useReducedMotion();
+
+  if (shouldReduce) {
+    return (
+      <div
+        className="rounded-full flex items-center justify-center mx-auto"
+        style={{ width: size, height: size, backgroundColor: "#dcfce7" }}
+      >
+        <svg width={size * 0.5} height={size * 0.5} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className="rounded-full flex items-center justify-center mx-auto"
+      style={{ width: size, height: size, backgroundColor: "#dcfce7" }}
+      initial={{ scale: 0.6, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <svg width={size * 0.5} height={size * 0.5} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <motion.path
+          d="M5 12.5l4.5 4.5L19 7.5"
+          stroke="#16a34a"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.45, delay: 0.25, ease: [0.25, 1, 0.5, 1] }}
+        />
+      </svg>
     </motion.div>
   );
 }

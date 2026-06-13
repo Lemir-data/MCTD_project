@@ -1,15 +1,19 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { CalendarDays, MapPin, Search, Users } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
+import { CalendarDays, MapPin, Search } from "lucide-react";
 import { mockEvents } from "@/lib/mockData";
-import { PageHeader, FilterPillBar, EmptyState } from "@/components/ui/ui";
+import { FilterPillBar, EmptyState } from "@/components/ui/ui";
+import { StaggerContainer, StaggerItem, HoverCard } from "@/components/ui/animations";
 
 const categories = ["Tous", "Retraite", "Conférence", "Concert", "Formation"];
 
 export default function EvenementsPage() {
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState("Tous");
+  const shouldReduce = useReducedMotion();
 
   const filtered = mockEvents.filter((e) => {
     const matchSearch = e.title.toLowerCase().includes(search.toLowerCase());
@@ -20,24 +24,42 @@ export default function EvenementsPage() {
   return (
     <div>
       {/* Header */}
-      <PageHeader
-        icon={<CalendarDays size={40} className="mx-auto mb-4 opacity-80" />}
-        title="Événements MCTD"
-        subtitle="Découvrez et participez aux activités de notre communauté"
-      >
-        <div className="relative max-w-lg mx-auto mt-6">
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60" />
-          <input
-            type="text"
-            aria-label="Rechercher un événement"
-            placeholder="Rechercher un événement..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="input-white w-full pl-12 pr-4 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
-            style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
+      <section className="relative aspect-video text-white overflow-hidden" style={{ backgroundColor: "#122a4e" }}>
+        <div className={`absolute inset-0${shouldReduce ? "" : " kenburns"}`}>
+          <Image
+            src="/logos/evenement.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-bottom"
           />
         </div>
-      </PageHeader>
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to top, rgba(18,42,78,0.9) 0%, rgba(18,42,78,0.35) 55%, rgba(18,42,78,0.05) 100%)" }}
+        />
+        <div className="absolute inset-0 flex flex-col justify-end py-12 md:py-16 px-4">
+          <div className="relative w-full max-w-7xl mx-auto text-center mb-2 sm:mb-12 md:mb-28 lg:mb-40">
+            <CalendarDays size={40} className="mb-4 opacity-80 mx-auto hidden sm:block" />
+            <p className="text-blue-200 text-lg max-w-2xl mx-auto hidden sm:block">
+              Découvrez et participez aux activités de notre communauté
+            </p>
+            <div className="relative max-w-lg mx-auto mt-6">
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60" />
+              <input
+                type="text"
+                aria-label="Rechercher un événement"
+                placeholder="Rechercher un événement..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="input-white w-full pl-12 pr-4 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
+                style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Filtres */}
       <section className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4">
@@ -63,42 +85,43 @@ export default function EvenementsPage() {
               description="Essayez d'autres filtres ou modifiez votre recherche."
             />
           )}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((event) => (
-              <Link key={event.slug} href={`/evenements/${event.slug}`} className="card hover:shadow-md transition-shadow group">
-                <div className="h-48 flex items-center justify-center relative" style={{ backgroundColor: "#122a4e" }}>
-                  <CalendarDays size={48} className="text-white/20" />
-                  <div className="absolute top-3 left-3">
-                    <span className={`badge text-xs ${event.status === "complet" ? "badge-danger" : "badge-success"}`}>
-                      {event.status === "complet" ? "Complet" : "Ouvert"}
-                    </span>
-                  </div>
-                  <span className="absolute top-3 right-3 badge badge-primary text-xs">{event.category}</span>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-semibold text-gray-900 group-hover:text-[#1A3C6E] transition-colors mb-2">{event.title}</h3>
-                  <div className="space-y-1.5 text-xs text-gray-500 mb-3">
-                    <p className="flex items-center gap-1.5"><CalendarDays size={12} /> {event.date} — {event.time}</p>
-                    <p className="flex items-center gap-1.5"><MapPin size={12} /> {event.location}</p>
-                    <p className="flex items-center gap-1.5"><Users size={12} />
-                      {event.status === "complet"
-                        ? <span className="text-red-500">Complet</span>
-                        : <span style={{ color: "#1A3C6E" }}>{event.placesLeft} places restantes</span>
-                      }
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                    <span className="text-sm font-semibold" style={{ color: "#C8941A" }}>{event.price}</span>
-                    {event.status !== "complet" && (
-                      <span className="text-xs font-medium text-white px-3 py-1 rounded-full" style={{ backgroundColor: "#1A3C6E" }}>
-                        S'inscrire
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </Link>
+              <StaggerItem key={event.slug}>
+                <HoverCard className="h-full">
+                  <Link href={`/evenements/${event.slug}`} className="card block h-full group">
+                    <div className="p-4 flex items-start gap-4">
+                      <div className="shrink-0 w-16 rounded-lg overflow-hidden text-center" style={{ backgroundColor: "#1A3C6E" }}>
+                        <p className="font-heading text-2xl font-bold text-white pt-2 leading-none">{event.date.split(" ")[0]}</p>
+                        <p className="text-[11px] uppercase font-semibold text-blue-200 pb-2 pt-1">{event.date.split(" ")[1]}</p>
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-1.5">
+                          <span className={`badge text-xs ${event.status === "complet" ? "badge-danger" : "badge-success"}`}>
+                            {event.status === "complet" ? "Complet" : "Inscriptions ouvertes"}
+                          </span>
+                          <span className="badge badge-primary text-xs">{event.category}</span>
+                        </div>
+                        <h3 className="font-semibold mb-1 text-gray-900 group-hover:text-[#1A3C6E] transition-colors">{event.title}</h3>
+                        <div className="space-y-1 text-xs text-gray-600">
+                          <p className="flex items-center gap-1"><CalendarDays size={12} /> {event.date} — {event.time}</p>
+                          <p className="flex items-center gap-1"><MapPin size={12} /> {event.location}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mx-4 mb-4 pt-3 border-t border-gray-100 flex justify-between items-center text-xs">
+                      <span className="font-semibold" style={{ color: "#C8941A" }}>{event.price}</span>
+                      {event.status === "complet" ? (
+                        <span className="text-red-500 font-medium">Complet</span>
+                      ) : (
+                        <span style={{ color: "#1A3C6E" }} className="font-medium">{event.placesLeft} places restantes</span>
+                      )}
+                    </div>
+                  </Link>
+                </HoverCard>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </section>
     </div>

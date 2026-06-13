@@ -64,7 +64,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-sm text-gray-900">{mod.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{mod.instructor}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{mod.instructor}</p>
                       <div className="mt-2">
                         <div className="flex justify-between text-xs text-gray-500 mb-1">
                           <span>Progression</span>
@@ -96,7 +96,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex-1">
                       <p className="text-sm text-gray-800">{course.title}</p>
-                      <p className="text-xs text-gray-400">{course.duration}</p>
+                      <p className="text-xs text-gray-500">{course.duration}</p>
                     </div>
                     {course.completed && <span className="text-xs text-green-600 font-medium">Complété</span>}
                   </div>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
                 JB
               </div>
               <p className="font-semibold text-gray-900">Kouassi Jean-Baptiste</p>
-              <p className="text-xs text-gray-400 mt-0.5">jean@email.com</p>
+              <p className="text-xs text-gray-500 mt-0.5">jean@email.com</p>
               <p className="text-xs mt-2 px-3 py-1 rounded-full inline-block" style={{ backgroundColor: "#EFF6FF", color: "#1A3C6E" }}>
                 Membre actif
               </p>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
                     </div>
                     <div>
                       <p className="text-xs font-medium text-gray-800 leading-snug">{event.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{event.date}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{event.date}</p>
                     </div>
                   </div>
                 ))}

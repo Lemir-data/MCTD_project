@@ -5,7 +5,11 @@
       "PowerShell(taskkill /PID 23640 /F)",
       "PowerShell(taskkill /PID 15568 /F)",
       "PowerShell(Get-Process -Name \"node\" -ErrorAction SilentlyContinue)",
-      "PowerShell(Stop-Process -Force)"
+      "PowerShell(Stop-Process -Force)",
+      "Bash(cd /c/MCTD_project/frontend && rm -rf .next && echo \"cache cleared\")"
+    ],
+    "additionalDirectories": [
+      "c:\\c\\MCTD_project\\frontend"
     ]
   }
 }
