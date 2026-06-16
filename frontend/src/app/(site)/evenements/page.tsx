@@ -45,25 +45,13 @@ export default function EvenementsPage() {
             <p className="text-blue-200 text-lg max-w-2xl mx-auto hidden sm:block">
               Découvrez et participez aux activités de notre communauté
             </p>
-            <div className="relative max-w-lg mx-auto mt-6">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60" />
-              <input
-                type="text"
-                aria-label="Rechercher un événement"
-                placeholder="Rechercher un événement..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="input-white w-full pl-12 pr-4 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-white/40"
-                style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
-              />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Filtres */}
+      {/* Filtres + Recherche */}
       <section className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-4 py-3">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-2 py-3">
           <FilterPillBar
             tabs={categories.map((c) => ({ id: c, label: c }))}
             active={cat}
@@ -71,6 +59,17 @@ export default function EvenementsPage() {
             layoutId="evenements"
             ariaLabel="Filtrer les événements"
           />
+          <div className="relative w-full sm:w-64">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <input
+              type="text"
+              aria-label="Rechercher un événement"
+              placeholder="Rechercher un événement..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-200 bg-white text-gray-700 focus:outline-none focus:border-[#1A3C6E] focus:ring-2 focus:ring-[#1A3C6E]/20"
+            />
+          </div>
         </div>
       </section>
 

@@ -60,7 +60,7 @@ export default function HomePage() {
                 alt={i === slide ? img.alt : ""}
                 fill
                 priority={i === 0}
-                sizes="100vw"
+                sizes={i === 0 ? "100vw" : "(min-width: 1024px) 58vw, 100vw"}
                 className={`object-cover ${i === 0 ? "object-[center_27%]" : "object-center"}`}
               />
             </div>

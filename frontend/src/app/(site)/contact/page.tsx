@@ -1,7 +1,8 @@
 "use client";
+import Image from "next/image";
 import { MapPin, Mail, Clock } from "lucide-react";
 import { useState } from "react";
-import { PageHeader } from "@/components/ui/ui";
+import { useReducedMotion } from "framer-motion";
 import { SuccessCheck } from "@/components/ui/animations";
 
 const focusClass = "focus:outline-none focus:border-[#1A3C6E] focus:ring-2 focus:ring-[#1A3C6E]/20";
@@ -21,6 +22,7 @@ export default function ContactPage() {
   const [sujet, setSujet] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const shouldReduce = useReducedMotion();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,10 +42,18 @@ export default function ContactPage() {
   return (
     <div>
       {/* Header */}
-      <PageHeader
-        title="Contactez-nous"
-        subtitle="Notre église est disponible pour répondre à toutes vos questions"
-      />
+      <section className="relative aspect-video text-white overflow-hidden" style={{ backgroundColor: "#122a4e" }}>
+        <div className={`absolute inset-0${shouldReduce ? "" : " kenburns"}`}>
+          <Image
+            src="/logos/contact.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
+      </section>
 
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
