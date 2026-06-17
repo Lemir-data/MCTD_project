@@ -7,7 +7,7 @@ import { SuccessCheck } from "@/components/ui/animations";
 
 const focusClass = "focus:outline-none focus:border-[#1A3C6E] focus:ring-2 focus:ring-[#1A3C6E]/20";
 
-// Réseaux sociaux : renseigner les URLs réelles pour réactiver l'affichage.
+// Réseaux sociaux : à renseigner
 const socials: { label: string; href: string }[] = [
   { label: "Facebook", href: "" },
   { label: "YouTube", href: "" },

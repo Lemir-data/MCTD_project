@@ -1,10 +1,11 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingCart, BookOpen, Newspaper, Package, Truck, ShieldCheck, Tag } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { ShoppingCart, BookOpen, Newspaper, Package, Truck, ShieldCheck } from "lucide-react";
 import { mockBooks, mockMagazines } from "@/lib/mockData";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/animations";
-import { PageHeader, FilterPillBar } from "@/components/ui/ui";
+import { FilterPillBar } from "@/components/ui/ui";
 
 type Tab = "tous" | "livres" | "magazines";
 
@@ -76,6 +77,7 @@ function MagazineCover({ title, edition, theme, color }: { title: string; editio
 export default function BoutiquePage() {
   const [activeTab, setActiveTab] = useState<Tab>("tous");
   const [cart, setCart] = useState<string[]>([]);
+  const shouldReduce = useReducedMotion();
 
   const addToCart = (id: string) => setCart((c) => (c.includes(id) ? c : [...c, id]));
 
@@ -96,20 +98,22 @@ export default function BoutiquePage() {
   return (
     <div>
       {/* Header */}
-      <PageHeader
-        title="Boutique"
-        subtitle={
-          <span className="max-w-2xl mx-auto block">
-            Livres, magazines et cahiers de formation pour approfondir votre foi et enrichir votre vie spirituelle.
-          </span>
-        }
-      >
-        <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm text-blue-200">
-          <span className="flex items-center gap-1.5"><Truck size={15} className="text-[#C8941A]" /> Livraison dans Abidjan</span>
-          <span className="flex items-center gap-1.5"><ShieldCheck size={15} className="text-[#C8941A]" /> Paiement sécurisé</span>
-          <span className="flex items-center gap-1.5"><Tag size={15} className="text-[#C8941A]" /> Prix en FCFA</span>
+      <section className="relative aspect-video text-white overflow-hidden" style={{ backgroundColor: "#122a4e" }}>
+        <div className={`absolute inset-0${shouldReduce ? "" : " kenburns"}`}>
+          <Image
+            src="/logos/boutique.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-bottom"
+          />
         </div>
-      </PageHeader>
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(to top, rgba(18,42,78,0.9) 0%, rgba(18,42,78,0.35) 55%, rgba(18,42,78,0.05) 100%)" }}
+        />
+      </section>
 
       {/* Tabs */}
       <section className="sticky top-16 z-30 bg-white border-b border-gray-200 px-4">
